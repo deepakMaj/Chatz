@@ -1,0 +1,113 @@
+@import "~bootstrap/scss/bootstrap";
+
+// Starter
+
+:root {
+	--mainColor: #131a21; 
+}
+
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+::-webkit-scrollbar{
+	width: 8px;
+}
+
+::-webkit-scrollbar-thumb{
+	background-color: gray;
+	border-radius: 10px;
+}
+
+body{
+	min-height: 100vh;
+	background-color: var(--mainColor);
+}
+
+.row{
+	width: 100%;
+}
+
+// Register & Login Page
+
+.authContainer{
+	display: flex;
+	min-height: 100%;
+	justify-content: center;
+	align-items: flex-start;
+}
+
+.authCard{
+	width: 60vh;
+	margin: auto;
+	box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.3);
+	animation: slideForm 1s ease-in-out;
+}
+
+.imgContainer{
+	width: 100%;
+	height: 100%;
+	animation: slideImage 1s ease-in-out;
+}
+
+.image{
+	height: 100%;
+	width: 100%;
+	object-fit: contain;
+}
+
+.logoImage{
+	width: 2.5rem;
+}
+
+.heading{
+	animation: dropHeading 1s ease-in-out;
+}
+
+@keyframes dropHeading{
+	0% {
+		top: -15vh;
+		opacity: 0;
+	}
+	100%{
+		top: 0;
+		opacity: 1;
+	}
+}
+
+@keyframes slideImage{
+	0% {
+		left: -20vh;
+		opacity: 0;
+	}
+	100%{
+		left: 0;
+		opacity: 1;
+	}
+}
+
+
+@keyframes slideForm{
+	0% {
+		right: -30vh;
+		opacity: 0;
+	}
+	100%{
+		right: 0;
+		opacity: 1;
+	}
+}
+
+// Media Queries
+
+@media(min-width: 320px) and (max-width: 575px){
+	.heading{
+		font-size: 2rem;
+	}
+
+	.imageCol{
+		display: none;
+	}
+}

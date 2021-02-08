@@ -1,10 +1,12 @@
-import './App.css';
+import './App.scss';
+import { Container } from 'react-bootstrap';
+import Main from './components/Main';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Hello React</h1>
-    </div>
+    <Container className="position-relative">
+      <Main />
+    </Container>
   );
 }
 
