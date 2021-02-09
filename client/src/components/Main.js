@@ -3,6 +3,8 @@ import chat from '../assets/images/chat.svg';
 import logo from '../assets/images/logo.svg';
 import { Row, Col } from 'react-bootstrap';
 import Register from './Register';
+import Login from './Login';
+import { Route, Switch } from 'react-router-dom';
 
 const Main = () => {
     return (
@@ -21,7 +23,10 @@ const Main = () => {
               </div>
             </Col>
             <Col>
-              <Register />
+              <Switch>
+                <Route exact path="/register" component={Register}></Route>
+                <Route exact path="/login" component={Login}></Route>
+              </Switch>
             </Col>
           </Row>
         </div>
