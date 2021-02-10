@@ -33,7 +33,7 @@ module.exports = {
             let errors = {};
             try {
                 if (username.trim() === '') errors.username = "Username must not be empty";
-                if (password.trim() === '') errors.username = "Password must not be empty";
+                if (password.trim() === '') errors.password = "Password must not be empty";
                 
                 if (Object.keys(errors).length > 0) {
                     throw new UserInputError("user not found", { errors });
@@ -47,8 +47,8 @@ module.exports = {
                 
                 const correctPassword = await bcrypt.compare(password, user.password);
                 if (!correctPassword) {
-                    errors.password = "Password is incorrect"
-                    throw new AuthenticationError("password is incorrect", { errors });
+                    errors.password = "Password is incorrect";
+                    throw new UserInputError("password is incorrect", { errors });
                 }
 
                 const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: "1h" });
