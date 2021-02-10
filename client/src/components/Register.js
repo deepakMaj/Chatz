@@ -23,6 +23,7 @@ const Register = () => {
 	});
 	const [errors, setErrors] = useState({});
 
+	// registerUser is a mutate function
 	const [registerUser, { loading }] = useMutation(REGISTER_USER, {
 		update(cache, res) { 
 			console.log(res);
@@ -40,8 +41,7 @@ const Register = () => {
 			username: '',
 			password: '',
 			confirmPassword: ''
-		})
-		console.log(variables);
+		});
 	}
 
 	return (
