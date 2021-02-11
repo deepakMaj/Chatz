@@ -1,9 +1,12 @@
-import { React, Fragment, useState } from 'react';
+import { React, Fragment, useState, useContext } from 'react';
 import { Form, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useLazyQuery, gql } from '@apollo/client';
+import AlertContext from '../context/alert/alertContext';
 
 const Login = (props) => {
+
+  const alertContext = useContext(AlertContext);
 
   const LOGIN_USER = gql`
     query login($username: String!, $password: String!){
@@ -25,8 +28,11 @@ const Login = (props) => {
 
   // loginUser is a query function
   const [loginUser, { loading }] = useLazyQuery(LOGIN_USER, {
-    onError: (err) => setErrors(err.graphQLErrors[0].extensions.errors),
+    onError: (err) => {
+      setErrors(err.graphQLErrors[0].extensions.errors);
+    },
     onCompleted: (data) => {
+      alertContext.setAlert("You have logged in successfully");
       localStorage.setItem('token', data.login.token);
       props.history.push('/');
     }

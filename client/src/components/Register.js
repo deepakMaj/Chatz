@@ -1,9 +1,12 @@
-import { React, Fragment, useState } from 'react';
+import { React, Fragment, useState, useContext } from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { Form, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import AlertContext from '../context/alert/alertContext';
 
 const Register = (props) => {
+
+	const alertContext = useContext(AlertContext);
 
 	const REGISTER_USER = gql`
 		mutation register($username: String!, $email: String!, $password: String!, $confirmPassword: String!) {
@@ -26,8 +29,14 @@ const Register = (props) => {
 
 	// registerUser is a mutate function
 	const [registerUser, { loading }] = useMutation(REGISTER_USER, {
-		update: (cache, res) => props.history.push('/login'),
-		onError: (err) => setErrors(err.graphQLErrors[0].extensions.errors)
+		update: (cache, res) => {
+			alertContext.setAlert("Your account has been successfully created");
+			props.history.push('/login');
+		},
+		onError: (err) => {
+			alertContext.setAlert("There was error creating your account");
+			setErrors(err.graphQLErrors[0].extensions.errors);
+		}
 	});
 
 	const submitRegisterForm = e => {

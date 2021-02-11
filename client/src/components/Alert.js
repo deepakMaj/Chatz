@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import close from '../assets/images/close.svg';
+import AlertContext from '../context/alert/alertContext';
 
 const Alert = ({ message }) => {
+
+  const alertContext = useContext(AlertContext);
 
   const closeAlert = () => {
     const alert = document.getElementById("alertMsg");
     alert.classList.replace("showAlert", "removeAlert");
-    setTimeout(() => alert.remove(), 900);
+    setTimeout(() => {
+      alertContext.removeAlert(); 
+      alert.remove(); 
+    }, 900);
   }
 
   return (
