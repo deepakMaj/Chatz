@@ -1,5 +1,6 @@
 const { ApolloServer } = require('apollo-server');
 const { sequelize } = require('./models');
+const contextMiddleware = require('./util/contextMiddleware');
 
 
 // The GraphQL schema
@@ -11,7 +12,7 @@ const resolvers = require("./graphql/resolvers");
 const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: (ctx) => ctx 
+    context: contextMiddleware
 });
 
 server.listen().then(({ url }) => {

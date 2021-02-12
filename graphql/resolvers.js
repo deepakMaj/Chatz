@@ -1,4 +1,4 @@
-const { User } = require('../models'); 
+const { User, Message } = require('../models'); 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config/env.json");
@@ -7,18 +7,9 @@ const { UserInputError, AuthenticationError } = require("apollo-server");
 
 module.exports = {
     Query: {
-        getUsers: async (parent, args, context) => {
+        getUsers: async (parent, args, { user }) => {
             try {
-                let user;
-                if (context.req && context.req.headers.authorization) {
-                    const token = context.req.headers.authorization.split("Bearer ")[1];
-                    jwt.verify(token, JWT_SECRET, (err, decodedToken) => {
-                        if (err) {
-                            throw new AuthenticationError("Unauthenticated!")
-                        }
-                        user = decodedToken;
-                    });
-                }
+                if(!user) throw new AuthenticationError("Unauthenticated!");
                 const users = await User.findAll({
                     where: { username: { [Op.ne]: user.username }}
                 });
@@ -93,6 +84,25 @@ module.exports = {
                     error.errors.forEach((e) => (errors[e.path] = e.message));
                 }
                 throw new UserInputError('Error', { errors });
+            }
+        },
+        sendMessage: async (parent, { to, content }, { user }) => {
+            try {
+                if(!user) throw new AuthenticationError("Unauthenticated!");
+                const recipient = await User.findOne({ where: { username: to }});
+                if(!recipient) throw new UserInputError("User not found");
+                if(content.trim() === ''){
+                    throw new UserInputError("Message is empty");
+                }
+                const message = await Message.create({
+                    from: user.username,
+                    to,
+                    content
+                });
+                return message;
+            } catch (err) {
+                console.log(err);
+                throw err;
             }
         }
     }
