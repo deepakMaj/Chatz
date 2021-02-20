@@ -4,9 +4,11 @@ module.exports = gql`
   type User {
     id: String!
     username: String!,
-    email: String!,
+    email: String,
     token: String,
-    createdAt: String!
+    createdAt: String!,
+    imageUrl: String,
+    latestMessage: Message
   }
 
   type Message {
@@ -19,7 +21,8 @@ module.exports = gql`
 
   type Query {
     getUsers: [User]!,
-    login(username:String!, password:String!): User!
+    login(username:String!, password:String!): User!,
+    getMessages(from: String!): [Message]!
   }
 
   type Mutation {

@@ -3,10 +3,12 @@ import { Form, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useLazyQuery, gql } from '@apollo/client';
 import AlertContext from '../context/alert/alertContext';
+import AuthContext from '../context/auth/authContext';
 
 const Login = (props) => {
 
   const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
 
   const LOGIN_USER = gql`
     query login($username: String!, $password: String!){
@@ -33,7 +35,7 @@ const Login = (props) => {
     },
     onCompleted: (data) => {
       alertContext.setAlert("You have logged in successfully");
-      localStorage.setItem('token', data.login.token);
+      authContext.login(data.login);
       props.history.push('/');
     }
   });

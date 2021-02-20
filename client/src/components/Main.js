@@ -1,14 +1,14 @@
-import { React, Fragment } from 'react';
+import { React } from 'react';
 import chat from '../assets/images/chat.svg';
 import logo from '../assets/images/logo.svg';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Container } from 'react-bootstrap';
 import Register from './Register';
 import Login from './Login';
 import { Route, Switch } from 'react-router-dom';
 
 const Main = () => {
     return (
-      <Fragment>
+      <Container className="position-relative">
         <div className="heading py-4 position-relative">
           <div className="d-flex justify-content-center align-items-center">
             <h1 className="heading text-white text-center">Welcome to Chatz</h1>
@@ -30,12 +30,12 @@ const Main = () => {
             </Col>
           </Row>
         </div>
-        <div className="pt-4">
+        <div className="pb-2">
           <div>
             <p className="text-center text-muted">Chatz &copy; 2021</p>
           </div>
         </div> 
-      </Fragment>
+      </Container>
     )
 }
 

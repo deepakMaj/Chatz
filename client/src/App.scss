@@ -32,6 +32,22 @@ body{
 	width: 100%;
 }
 
+p{
+	margin: 0;
+}
+
+.fw-500{
+	font-weight: 500;
+}
+
+.pointer{
+	cursor: pointer;
+}
+
+.closeIcon:hover{
+	color: #cecece !important;
+}
+
 // Register & Login Page
 
 .authContainer{
@@ -46,12 +62,16 @@ body{
 	margin: auto;
 	box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.3);
 	animation: slideForm 1s ease-in-out;
+	-moz-animation: slideForm 1s ease-in-out;
+	-webkit-animation: slideForm 1s ease-in-out;
 }
 
 .imgContainer{
 	width: 100%;
 	height: 100%;
 	animation: slideImage 1s ease-in-out;
+	-moz-animation: slideImage 1s ease-in-out;
+	-webkit-animation: slideImage 1s ease-in-out;
 }
 
 .image{
@@ -66,6 +86,8 @@ body{
 
 .heading{
 	animation: dropHeading 1s ease-in-out;
+	-moz-animation: dropHeading 1s ease-in-out;
+	-webkit-animation: dropHeading 1s ease-in-out;
 }
 
 @keyframes dropHeading{
@@ -108,7 +130,7 @@ body{
 	background-color: var(--alert-color);
 	height: 3rem;
 	top: 3rem;
-	right: -4rem;
+	right: 2rem;
 	filter: drop-shadow(2px 4px 6px black);
 	z-index: 999;
 }
@@ -125,10 +147,14 @@ body{
 
 .showAlert{
 	animation: showAlert 1s ease-in-out;
+	-moz-animation: showAlert 1s ease-in-out;
+	-webkit-animation: showAlert 1s ease-in-out;
 }
 
 .removeAlert{
 	animation: closeAlert 1s ease-in-out;
+	-moz-animation: closeAlert 1s ease-in-out;
+	-webkit-animation: closeAlert 1s ease-in-out;
 }
 
 @keyframes showAlert{
@@ -137,20 +163,110 @@ body{
 		opacity: 0;
 	}
 	100%{
-		right: -4rem;
+		right: 2rem;
 		opacity: 1;	
 	}
 }
 
 @keyframes closeAlert{
 	0%{
-		right: -4rem;
+		right: 2rem;
 		opacity: 1;
 	}
 	100%{
 		right: -10rem;
 		opacity: 0;
 	}
+}
+
+// Contact Section
+
+.contactSection {
+	display: flex;
+}
+
+.homeRow { 
+	margin: 0;
+	min-height: 100vh;
+}
+
+.infoCol{
+	border-right: solid 2px;
+	width: 25rem;
+}
+
+.logoutBtn{
+	font-size: 13px;
+	font-weight: 500;
+	padding: 0.3rem 1.2rem;
+	border-radius: 1rem;
+	background-color: #1f1f31;
+	border-color: #7878ce;
+	transition: all 0.5s;
+	-moz-transition: all;
+	-webkit-transition: all;
+}
+
+.logoutBtn:hover{
+	background-color: #2a2a48;
+	border-color: #7878ce;
+}
+
+.displayInfo, .contact:hover{
+	background-color: #1e262df5;
+}
+
+.contact{
+	cursor: pointer;
+}
+
+.searchInput{
+	width: 100%;
+	border: none;
+	border-radius: 1rem;
+	padding: 5px 1rem 5px 4rem;
+	outline: none;
+	background: #1f2327;
+	color: #ffffffad;
+	font-weight: 500;
+}
+
+.searchBar, .contentBorder{
+	border-bottom: 1px solid #313131;
+}
+
+#searchIcon{
+	cursor: pointer;
+	left: 2rem;
+	top: 1.6rem;
+	color: #737373;
+}
+
+.userImage{
+	height: 3rem;
+	width: 3rem;
+	object-fit: cover;
+	border-radius: 50%;
+}
+
+.spinner-grow{
+	background-color: var(--gray);
+	position: relative;
+	top: 15rem;
+	left: 12rem;
+}
+
+.messageCol{
+	flex-grow: 2;
+}
+
+.messageBox, .contactBox{
+	height: 100%;
+}
+
+.navbar{
+	background-color: #38646bfa;
+	filter: drop-shadow(2px 3px 6px rgba(0 ,0 ,0 ,0.1));
 }
 
 // Media Queries
@@ -162,5 +278,21 @@ body{
 
 	.imageCol{
 		display: none;
+	}
+}
+
+@media(min-width: 1024px) and (max-width: 1440px){
+	.chatImg{
+		height: 25rem;
+	}
+}
+
+@media(min-width: 768px) and (max-width: 1023px){
+	.chatImg{
+		height: 16rem;
+	}
+
+	.infoCol{
+		width: 18rem;
 	}
 }
