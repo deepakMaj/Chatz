@@ -4,10 +4,11 @@ import { Spinner } from 'react-bootstrap';
 import MessageContext from '../context/message/messageContext';
 import classNames from 'classnames';
 
-const Users = ({ setSelectedUser, selectedUser }) => {
+const Users = () => {
 
   const messageContext = useContext(MessageContext);
-  const { users, setUsers } = messageContext;
+  const { users, setUsers, setSelectedUser } = messageContext;
+  const selectedUser = users?.find(user => user.selected === true);
 
   const GET_USERS = gql`
     query GetUsers{

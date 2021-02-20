@@ -1,6 +1,6 @@
 import { LOGIN, LOGOUT } from '../types';
 
-export default (state, action) => {
+const AuthReducer = (state, action) => {
   switch (action.type) {
     case LOGIN:
       localStorage.setItem('token', action.payload.token);
@@ -18,3 +18,4 @@ export default (state, action) => {
       throw new Error(`Unknown action type: ${action.type}`)
   }
 }
+export default AuthReducer;

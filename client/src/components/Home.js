@@ -1,33 +1,11 @@
-import React, { Fragment, useContext, useState, useEffect } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { Row, Button } from 'react-bootstrap';
 import AuthContext from '../context/auth/authContext';
 import AlertContext from '../context/alert/alertContext';
-import { gql, useLazyQuery } from '@apollo/client';
-import BeginChat from '../assets/images/begin_chat.svg';
 import Users from './Users';
+import Messages from './Messages';
 
 const Home = ({ history }) => {
-
-  const GET_MESSAGES = gql`    
-    query GetMessages($from: String!){
-      getMessages(from: $from){
-        uuid
-        from
-        to
-        content
-        createdAt
-      }
-    }
-  `;
-
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [getMessages, { loading: messagesLoading, data: messagesData}] = useLazyQuery(GET_MESSAGES);
-
-  useEffect(() => {
-    if(selectedUser){
-      getMessages({variables: { from: selectedUser.username}})
-    }
-  }, [selectedUser]);
 
   const authContext = useContext(AuthContext);
   const alertContext = useContext(AlertContext);
@@ -60,32 +38,12 @@ const Home = ({ history }) => {
                 <input type="text" className="searchInput"/>
               </div>
             </div>
-            <Users setSelectedUser={setSelectedUser} selectedUser={selectedUser} />
+            <Users />
           </div>
         </div>
 
         <div className="messageCol">
-          {selectedUser === null ? 
-          (<div className="messageBox d-flex justify-content-center align-items-center">
-            <img src={BeginChat} alt="" className="chatImg" />
-          </div>) : (
-            <div className="contactBox">
-              <div className="navbar d-flex justify-content-between align-items-center p-3">
-                <div className="d-flex align-items-center">
-                  <img src={selectedUser.imageUrl} alt="" className="userImage mr-3" />
-                  <h6 className="text-white">{selectedUser.username}</h6>
-                </div>
-                <div>
-                  <i className="closeIcon fa fa-times fa-2x text-white pointer" title="Close" onClick={() => setSelectedUser(null)}></i>
-                </div>
-              </div>
-              {messagesData && messagesData.getMessages.length > 0 ? (
-                messagesData.getMessages.map(message => (
-                  <div key={message.uuid} className="text-white fw-500">{message.content}</div>
-                ))
-              ): (<p className="text-white fw-500">You are now connected!</p>)}
-            </div>
-          )}
+          <Messages />
         </div>
       </Row>
     </Fragment>

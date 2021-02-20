@@ -13,7 +13,7 @@ const AuthState = props => {
   if (token) {
     const decodedToken = jwtDecode(token);
     const expiresAt = new Date(decodedToken.exp * 1000);
-    if (new Date > expiresAt) {
+    if (new Date() > expiresAt) {
       localStorage.removeItem('token');
     }
     else {
