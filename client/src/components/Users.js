@@ -42,7 +42,7 @@ const Users = () => {
       }
       return (<div key={user.username} className={classNames("d-flex align-items-center p-3 contentBorder contact", {"userBg": username === user.username})} onClick={() => setSelectedUser(user)}>
         <div className="mr-3">
-          <img src={user.imageUrl} alt="" className="userImage" />
+          <img src={user.imageUrl || "https://www.gravatar.com/avatar/00000000000000000000000000000000"} alt="" className="userImage" />
         </div>
         <div>
           <h6 className="text-white mb-1">{user.username}</h6>

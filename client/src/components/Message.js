@@ -17,13 +17,13 @@ const Message = ({ message }) => {
         placement={sent ? "left" : "right"}
         overlay={
           <Tooltip>
-            {moment(parseInt(message.createdAt)).format('MMMM DD, YYYY @ h:mm a')}
+            {moment(message.createdAt).format('MMMM DD, YYYY @ h:mm a')}
           </Tooltip>
         }
       >
-        <div className={classNames("d-flex m-3", { "ml-auto": sent, "mr-auto": recieved })}>
+        <div key={message.uuid} className={classNames("d-flex m-3", { "ml-auto": sent, "mr-auto": recieved })}>
           <div className={classNames("py-2 px-3 rounded-pill", { "bg-dark": sent, "bg-secondary": recieved })}>
-            <p key={message.uuid} className="text-white fw-500">{message.content}</p>
+            <p className="text-white fw-500">{message.content}</p>
           </div>
         </div>
       </OverlayTrigger>

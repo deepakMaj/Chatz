@@ -9,7 +9,7 @@ const Messages = () => {
 
   const messageContext = useContext(MessageContext);
   const [content, setContent] = useState('');  
-  const { users, setSelectedUser, setUserMessages, sendUserMessage } = messageContext;
+  const { users, setSelectedUser, setUserMessages } = messageContext;
   const selectedUser = users?.find(user => user.selected === true);
   const messages = selectedUser?.messages;
 
@@ -40,7 +40,6 @@ const Messages = () => {
   const [getMessages, { loading: messagesLoading, data: messagesData }] = useLazyQuery(GET_MESSAGES);
 
   const [sendMessage] = useMutation(SEND_MESSAGE, {
-    onCompleted: data => sendUserMessage({ username: selectedUser.username, message: data.sendMessage}),
     onError: err => console.log(err)
   })
 
@@ -80,7 +79,7 @@ const Messages = () => {
     selectedChatMarkup = <div className="contactBox">
       <div className="navbar d-flex justify-content-between align-items-center p-3">
         <div className="d-flex align-items-center">
-          <img src={selectedUser.imageUrl} alt="" className="userImage mr-3" />
+          <img src={selectedUser.imageUrl || "https://www.gravatar.com/avatar/00000000000000000000000000000000"} alt="" className="userImage mr-3" />
           <h6 className="text-white">{selectedUser.username}</h6>
         </div>
         <div>
@@ -100,15 +99,16 @@ const Messages = () => {
   return (
     <Fragment>
       {selectedChatMarkup}
-      <div className="m-3">
-        <Form onSubmit={submitMessage}>
-          <Form.Group className="d-flex ">
-            <Form.Control type="text" className="py-3 shadow rounded-pill fw-500" placeholder="Send a new message..." value={content} onChange={(e) => setContent(e.target.value)}>
-            </Form.Control>
-            <i className="messageIcon position-absolute left-2 fa fa-paper-plane fa-2x text-primary" onClick={submitMessage}></i>
-          </Form.Group>
-        </Form>
-      </div>
+      { selectedUser &&
+        <div className="m-3">
+          <Form onSubmit={submitMessage}>
+            <Form.Group className="d-flex ">
+              <Form.Control type="text" className="py-3 shadow rounded-pill fw-500" placeholder="Send a new message..." value={content} onChange={(e) => setContent(e.target.value)}>
+              </Form.Control>
+              <i className="messageIcon position-absolute left-2 fa fa-paper-plane fa-2x text-primary" onClick={submitMessage}></i>
+            </Form.Group>
+          </Form>
+        </div> }
     </Fragment>
   )
 }

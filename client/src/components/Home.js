@@ -1,16 +1,43 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import { Row, Button } from 'react-bootstrap';
 import AuthContext from '../context/auth/authContext';
 import AlertContext from '../context/alert/alertContext';
+import MessageContext from '../context/message/messageContext';
 import Users from './Users';
 import Messages from './Messages';
+import { useSubscription, gql } from '@apollo/client';
 
 const Home = ({ history }) => {
 
+  const NEW_MESSAGE = gql`
+    subscription NewMessage {
+      newMessage {
+        uuid
+        from 
+        to
+        content
+        createdAt
+      }
+    }
+  `;
+
   const authContext = useContext(AuthContext);
   const alertContext = useContext(AlertContext);
+  const messageContext = useContext(MessageContext);
+
+  const { data: messageData, error: messageError } = useSubscription(NEW_MESSAGE);
 
   const { user, logout } = authContext;
+  const { sendUserMessage } = messageContext;
+
+  useEffect(() => {
+    if(messageError) console.log(messageError);
+    if(messageData) {
+      const message = messageData.newMessage;
+      const otherUser = user.username === message.to ? message.from : message.to;
+      sendUserMessage({ username: otherUser, message });
+    }
+  }, [messageError, messageData]);
 
   const accountLogout = () => {
     logout();
