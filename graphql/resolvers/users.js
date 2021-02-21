@@ -56,7 +56,7 @@ module.exports = {
           throw new UserInputError("password is incorrect", { errors });
         }
 
-        const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: "20h" });
+        const token = jwt.sign({ username, imageUrl: user.imageUrl }, JWT_SECRET, { expiresIn: "20h" });
 
         return {
           ...user.toJSON(),

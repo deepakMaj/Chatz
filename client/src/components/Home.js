@@ -24,8 +24,8 @@ const Home = ({ history }) => {
         <div className="infoCol">
           <div className="contactSection d-flex flex-column">
             <div className="displayInfo d-flex justify-content-between align-items-center p-3">
-              <div>
-                {/* <img src={} alt="" className="userImage"/> */}
+              <div className="d-flex align-items-center">
+                <img src={user.imageUrl || "https://www.gravatar.com/avatar/00000000000000000000000000000000"} alt="" className="userImage mr-3"/>
                 <h6 className="text-white">{user.username}</h6>
               </div>
               <div>

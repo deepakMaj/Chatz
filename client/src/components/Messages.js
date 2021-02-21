@@ -1,13 +1,15 @@
-import React, { Fragment, useEffect, useContext } from 'react';
-import { gql, useLazyQuery } from '@apollo/client';
+import React, { Fragment, useEffect, useContext, useState } from 'react';
+import { gql, useLazyQuery, useMutation } from '@apollo/client';
 import BeginChat from '../assets/images/begin_chat.svg';
 import MessageContext from '../context/message/messageContext';
-import { Spinner } from 'react-bootstrap';
+import { Spinner, Form } from 'react-bootstrap';
+import Message from './Message';
 
 const Messages = () => {
 
   const messageContext = useContext(MessageContext);
-  const { users, setSelectedUser, setUserMessages } = messageContext;
+  const [content, setContent] = useState('');  
+  const { users, setSelectedUser, setUserMessages, sendUserMessage } = messageContext;
   const selectedUser = users?.find(user => user.selected === true);
   const messages = selectedUser?.messages;
 
@@ -23,7 +25,24 @@ const Messages = () => {
     }
   `;
 
+  const SEND_MESSAGE = gql`
+    mutation SendMessage($to: String!, $content: String!){
+      sendMessage(to: $to, content: $content){
+        from
+        to
+        content
+        createdAt
+      }
+    }
+
+  `;
+
   const [getMessages, { loading: messagesLoading, data: messagesData }] = useLazyQuery(GET_MESSAGES);
+
+  const [sendMessage] = useMutation(SEND_MESSAGE, {
+    onCompleted: data => sendUserMessage({ username: selectedUser.username, message: data.sendMessage}),
+    onError: err => console.log(err)
+  })
 
   useEffect(() => {
     if (selectedUser && !selectedUser.messages) {
@@ -38,7 +57,15 @@ const Messages = () => {
         messages: messagesData.getMessages
       });
     }
-  }, [messagesData, setUserMessages, selectedUser]);
+  }, [messagesData]);
+
+
+  const submitMessage = (e) => {
+    e.preventDefault();
+    if(content.trim() === '') return;
+    sendMessage({ variables: {to: selectedUser.username, content}});
+    setContent('');
+  }
 
   let selectedChatMarkup;
   if(!messages && !messagesLoading){
@@ -60,17 +87,28 @@ const Messages = () => {
           <i className="closeIcon fa fa-times fa-2x text-white pointer" title="Close" onClick={() => setSelectedUser(null)}></i>
         </div>
       </div>
-      {messages && messages.length > 0 ? (
-        messages.map(message => (
-          <div key={message.uuid} className="text-white fw-500">{message.content}</div>
-        ))
-      ) : (<p className="text-white fw-500">You are now connected!</p>)}
+      <div className="messagesSection d-flex flex-column-reverse">
+        {messages && messages.length > 0 ? (
+          messages.map(message => (
+            <Message key={message.uuid} message={message} />
+          ))
+        ) : (<p className="connected text-white fw-500">You are now connected!</p>)}
+      </div>
     </div>
   }
 
   return (
     <Fragment>
       {selectedChatMarkup}
+      <div className="m-3">
+        <Form onSubmit={submitMessage}>
+          <Form.Group className="d-flex ">
+            <Form.Control type="text" className="py-3 shadow rounded-pill fw-500" placeholder="Send a new message..." value={content} onChange={(e) => setContent(e.target.value)}>
+            </Form.Control>
+            <i className="messageIcon position-absolute left-2 fa fa-paper-plane fa-2x text-primary" onClick={submitMessage}></i>
+          </Form.Group>
+        </Form>
+      </div>
     </Fragment>
   )
 }

@@ -212,7 +212,7 @@ p{
 	border-color: #7878ce;
 }
 
-.displayInfo, .contact:hover{
+.displayInfo, .contact:hover, .userBg{
 	background-color: #1e262df5;
 }
 
@@ -260,26 +260,46 @@ p{
 	flex-grow: 2;
 }
 
-.messageBox, .contactBox{
+.messageBox{
 	height: 100%;
+}
+
+.contact-box{
+	height: 100vh;
+}
+
+.messagesSection {
+	height: 77vh;
+	overflow-y: scroll;
+	scrollbar-width: none;
+	&::-webkit-scrollbar{
+		display: none;
+	}
+	& div:last-child{
+		padding-top: 1rem;
+	}
+}
+
+.connected{
+	background: #D4AC0D;
+	width: fit-content;
+	padding: 0.2rem 1rem;
+	border-radius: 5px;
+	margin: 0 auto;
+}
+
+.messageIcon{
+	cursor: pointer;
+	right: 2rem;
+	margin: 0.2rem;
 }
 
 .navbar{
 	background-color: #38646bfa;
-	filter: drop-shadow(2px 3px 6px rgba(0 ,0 ,0 ,0.1));
+	filter: drop-shadow(2px 20px 6px rgba(0 ,0 ,0 ,0.3));
 }
 
 // Media Queries
-
-@media(min-width: 320px) and (max-width: 575px){
-	.heading{
-		font-size: 2rem;
-	}
-
-	.imageCol{
-		display: none;
-	}
-}
 
 @media(min-width: 1024px) and (max-width: 1440px){
 	.chatImg{
@@ -294,5 +314,40 @@ p{
 
 	.infoCol{
 		width: 18rem;
+	}
+
+}
+
+
+@media(min-width: 320px) and (max-width: 767px){
+	.heading{
+		font-size: 2rem;
+	}
+
+	.chatImg{
+		width: 15rem;
+	}
+
+	.infoCol{
+		width: 12rem;
+	}
+
+	.displayInfo{
+		flex-direction: column;
+		justify-content: flex-start !important;
+		align-items: flex-start !important;
+	}
+
+	.logoutBtn{
+		margin-top: 1rem;
+		width: 10rem;
+	}
+
+	.latestMessage, .searchBar{
+		display: none !important;
+	}
+
+	.messageCol{
+		width: min-content;
 	}
 }

@@ -15,6 +15,7 @@ const Login = (props) => {
       login(username: $username, password: $password){
         id
         username
+        imageUrl
         email
         token
         createdAt

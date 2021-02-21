@@ -40,13 +40,13 @@ const Users = () => {
       if(selectedUser){
         username = selectedUser.username;
       }
-      return (<div key={user.username} className={classNames("d-flex align-items-center p-3 contentBorder contact", {"displayInfo": username === user.username})} onClick={() => setSelectedUser(user)}>
+      return (<div key={user.username} className={classNames("d-flex align-items-center p-3 contentBorder contact", {"userBg": username === user.username})} onClick={() => setSelectedUser(user)}>
         <div className="mr-3">
           <img src={user.imageUrl} alt="" className="userImage" />
         </div>
         <div>
           <h6 className="text-white mb-1">{user.username}</h6>
-          <p className="text-secondary fw-500">{user.latestMessage ? user.latestMessage.content : "You are now connected"}</p>
+          <p className="latestMessage text-secondary fw-500">{user.latestMessage ? user.latestMessage.content : "You are now connected"}</p>
         </div>
       </div>
     )});
