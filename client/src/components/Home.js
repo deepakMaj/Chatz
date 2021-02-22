@@ -21,14 +21,31 @@ const Home = ({ history }) => {
     }
   `;
 
+  const NEW_REACTION = gql`
+    subscription NewReaction {
+      newReaction {
+        uuid
+        content
+        createdAt
+        message {
+          uuid
+          to
+          from
+        }
+      }
+    }
+  `;
+
   const authContext = useContext(AuthContext);
   const alertContext = useContext(AlertContext);
   const messageContext = useContext(MessageContext);
 
   const { data: messageData, error: messageError } = useSubscription(NEW_MESSAGE);
 
+  const { data: reactionData, error: reactionError } = useSubscription(NEW_REACTION);
+
   const { user, logout } = authContext;
-  const { sendUserMessage } = messageContext;
+  const { sendUserMessage, addMessageReaction } = messageContext;
 
   useEffect(() => {
     if(messageError) console.log(messageError);
@@ -38,6 +55,15 @@ const Home = ({ history }) => {
       sendUserMessage({ username: otherUser, message });
     }
   }, [messageError, messageData]);
+
+  useEffect(() => {
+    if (reactionError) console.log(reactionError);
+    if (reactionData) {
+      const reaction = reactionData.newReaction;
+      const otherUser = user.username === reaction.message.to ? reaction.message.from : reaction.message.to;
+      addMessageReaction({ username: otherUser, reaction });
+    }
+  }, [reactionError, reactionData]);
 
   const accountLogout = () => {
     logout();

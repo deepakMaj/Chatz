@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import MessageContext from './messageContext';
 import MessageReducer from './messageReducer';
-import { SET_USERS, SET_SELECTED_USER, SET_USER_MESSAGES, ADD_MESSAGE } from '../types'; 
+import { SET_USERS, SET_SELECTED_USER, SET_USER_MESSAGES, ADD_MESSAGE, ADD_MESSAGE_REACTION } from '../types'; 
 
 const MessageState = (props) => {
 
@@ -36,6 +36,12 @@ const MessageState = (props) => {
     });
   }
 
+  const addMessageReaction = (data) => {
+    dispatch({
+      type: ADD_MESSAGE_REACTION,
+      payload: data
+    });
+  }
 
   return (
     <MessageContext.Provider value={{
@@ -43,7 +49,8 @@ const MessageState = (props) => {
       setUsers,
       setSelectedUser,
       setUserMessages,
-      sendUserMessage
+      sendUserMessage,
+      addMessageReaction
     }}>
       {props.children}
     </MessageContext.Provider>

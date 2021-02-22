@@ -17,7 +17,8 @@ module.exports = {
 						from: { [Op.in]: usernames },
 						to: { [Op.in]: usernames }
 					},
-					order: [['createdAt', 'DESC']]
+					order: [['createdAt', 'DESC']],
+					include: [{ model: Reaction, as: "reactions" }]
 				});
 				return messages;
 			} catch (err) {

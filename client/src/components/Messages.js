@@ -21,6 +21,10 @@ const Messages = () => {
         to
         content
         createdAt
+        reactions {
+        uuid
+        content
+        }
       }
     }
   `;
