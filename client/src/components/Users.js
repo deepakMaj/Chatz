@@ -4,10 +4,10 @@ import { Spinner } from 'react-bootstrap';
 import MessageContext from '../context/message/messageContext';
 import classNames from 'classnames';
 
-const Users = () => {
+const Users = ({ searchValue }) => {
 
   const messageContext = useContext(MessageContext);
-  const { users, setUsers, setSelectedUser } = messageContext;
+  let { users, setUsers, setSelectedUser } = messageContext;
   const selectedUser = users?.find(user => user.selected === true);
 
   const GET_USERS = gql`
@@ -23,7 +23,14 @@ const Users = () => {
     }
   `;
 
-  let loader;
+  if(searchValue){
+    users = users.filter(user => {
+      if (user.username.toLowerCase().includes(searchValue) || user.username.toUpperCase().includes(searchValue) || user.username.includes(searchValue))
+        return user;
+    });
+  }
+
+  let loader
   const { loading } = useQuery(GET_USERS, {
     onCompleted: data => setUsers(data.getUsers),
     onError: err => console.log(err)
@@ -32,7 +39,10 @@ const Users = () => {
     loader = <Spinner animation="grow" />;
   }
   else if (!users && !loading) {
-    loader = <h6 className="text-white">No users have joined</h6>
+    loader = <h6 className="text-white text-center mt-5 fw-500">No users have joined</h6>
+  }
+  else if(users.length === 0){
+    loader = <h6 className="text-white text-center mt-5 fw-500">No users found.</h6>
   }
   else {
     loader = users.map(user => {
@@ -51,10 +61,10 @@ const Users = () => {
       </div>
     )});
   }
-
+  
   return (
     <Fragment>
-      <div>
+      <div className="usersSection">
         {loader}
       </div>
     </Fragment>

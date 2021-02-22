@@ -252,15 +252,19 @@ p{
 .spinner-grow{
 	background-color: var(--gray);
 	position: relative;
-	top: 15rem;
-	left: 12rem;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
 }
 
 .messageCol{
 	flex-grow: 2;
 }
 
-.messageBox{
+.messageBox, .contactSection, .usersSection{
 	height: 100%;
 }
 
@@ -278,6 +282,10 @@ p{
 	& div:last-child{
 		padding-top: 1rem;
 	}
+}
+
+.message:first-child{
+	margin-bottom: 1.5rem !important;
 }
 
 .reactions{

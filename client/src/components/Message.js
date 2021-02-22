@@ -65,7 +65,7 @@ const Message = ({ message }) => {
 
   return (
     <Fragment>
-      <div key={message.uuid} className={classNames("d-flex m-3", { "ml-auto": sent, "mr-auto": recieved })}>
+      <div key={message.uuid} className={classNames("message d-flex m-3", { "ml-auto": sent, "mr-auto": recieved })}>
         {sent && reactButton}
         <OverlayTrigger
           placement={sent ? "left" : "right"}

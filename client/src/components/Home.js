@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { Row, Button } from 'react-bootstrap';
 import AuthContext from '../context/auth/authContext';
 import AlertContext from '../context/alert/alertContext';
@@ -39,6 +39,8 @@ const Home = ({ history }) => {
   const authContext = useContext(AuthContext);
   const alertContext = useContext(AlertContext);
   const messageContext = useContext(MessageContext);
+
+  const [searchValue, setSearchValue] = useState('');
 
   const { data: messageData, error: messageError } = useSubscription(NEW_MESSAGE);
 
@@ -88,10 +90,10 @@ const Home = ({ history }) => {
             <div>
               <div className="searchBar d-flex position-relative p-3">
                 <i id="searchIcon" className="fa fa-search position-absolute"></i>
-                <input type="text" className="searchInput"/>
+                <input type="text" value={searchValue} onChange={e => setSearchValue(e.target.value)} className="searchInput"/>
               </div>
             </div>
-            <Users />
+            <Users searchValue={searchValue} />
           </div>
         </div>
 
